@@ -9,17 +9,21 @@ authors = [
     { name = "Masanori Kaise", email = "masanori.kaise@gmail.com" },
 ]
 description = "A simple dice rolling game with animation"
-readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
-    "pytest",
+    "fastapi>=0.68.0",
+    "uvicorn>=0.15.0",
+    "dependency-injector>=4.41.0",
+    "httpx>=0.24.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
 ]
 
 [project.scripts]
 dice = "src.infrastructure.console_ui:show_rolling_animation"
-
-[tool.hatch.metadata]
-allow-direct-references = true
 
 [tool.hatch.build]
 packages = ["src"]
@@ -27,4 +31,29 @@ packages = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
-pythonpath = ["."] 
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.black]
+line-length = 88
+target-version = ["py38"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[tool.ruff]
+line-length = 88
+target-version = "py38"
+select = ["E", "F", "B", "I"]
+ignore = [] 

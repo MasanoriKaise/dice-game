@@ -1,11 +1,13 @@
 import os
 import time
-from src.application.dice_service import DiceService
+from src.application.services.dice import DiceServiceImpl
+from src.domain.dice import Dice
 
 class ConsoleUI:
     """コンソールUIの実装"""
     def __init__(self):
-        self._dice_service = DiceService()
+        dice = Dice()
+        self._dice_service = DiceServiceImpl(dice)
 
     def clear_screen(self):
         """画面をクリアする"""
@@ -16,17 +18,17 @@ class ConsoleUI:
         # サイコロが転がるアニメーション
         for i in range(15):
             self.clear_screen()
-            temp_result = self._dice_service.roll_dice()
+            temp_result = self._dice_service.roll()
             
             # 回転効果のための空白行
             print("\n" * 2)
             
             # サイコロの面を表示
-            for line in temp_result.pattern:
+            for line in temp_result["pattern"]:
                 print(" " * 5 + line)
             
             # 回転効果のためのメッセージ
-            rotation_messages = self._dice_service.get_rotation_messages()
+            rotation_messages = ["回転中...", "転がっています...", "まだ回っています..."]
             print("\n" + " " * 5 + rotation_messages[i % len(rotation_messages)])
             
             # アニメーションの速度を徐々に遅くする
@@ -34,9 +36,9 @@ class ConsoleUI:
         
         # 最終結果を表示
         self.clear_screen()
-        final_result = self._dice_service.roll_dice()
+        final_result = self._dice_service.roll()
         print("\n" * 2)
-        for line in final_result.pattern:
+        for line in final_result["pattern"]:
             print(" " * 5 + line)
         print("\n" + " " * 5 + "サイコロが止まりました！")
 
