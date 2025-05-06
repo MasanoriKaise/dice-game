@@ -43,6 +43,7 @@ jobs:
     - name: Install dependencies
       run: |
         uv venv
+        source .venv/bin/activate
         uv pip install pytest pytest-cov pytest-asyncio httpx fastapi uvicorn dependency-injector hatchling pydantic
         uv pip install -e .
 
@@ -51,6 +52,7 @@ jobs:
         PYTHONPATH: ${{ github.workspace }}
         PYTHONUNBUFFERED: 1
       run: |
+        source .venv/bin/activate
         pytest tests/${{ matrix.test-type }}/ -v --tb=short --cov=src --cov-report=xml --cov-report=term-missing
 
     - name: Upload coverage to Codecov
