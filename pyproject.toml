@@ -1,18 +1,22 @@
-[project]
-name = "dice-game"
-version = "0.1.0"
-description = "A simple dice rolling game with ASCII art animation"
-requires-python = ">=3.8"
-dependencies = [
-    "pytest>=8.0.0",
-]
-
-[project.scripts]
-dice = "src.saikoro:show_rolling_animation"
-
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[project]
+name = "dice-game"
+version = "0.1.0"
+authors = [
+    { name = "Masanori Kaise", email = "masanori.kaise@gmail.com" },
+]
+description = "A simple dice rolling game with animation"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pytest",
+]
+
+[project.scripts]
+dice = "src.infrastructure.console_ui:show_rolling_animation"
 
 [tool.hatch.metadata]
 allow-direct-references = true
