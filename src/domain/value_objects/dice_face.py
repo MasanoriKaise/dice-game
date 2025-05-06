@@ -1,14 +1,18 @@
-import random
 from dataclasses import dataclass
-from typing import List, Optional
-from datetime import datetime
-from src.domain.events.dice_rolled import DiceRolled
+from typing import List
 
-@dataclass
+@dataclass(frozen=True)
 class DiceFace:
     """サイコロの面を表す値オブジェクト"""
     number: int
     pattern: List[str]
+
+    def __post_init__(self):
+        """値の検証"""
+        if not 1 <= self.number <= 6:
+            raise ValueError("サイコロの目は1から6の間である必要があります")
+        if len(self.pattern) != 5:
+            raise ValueError("パターンは5行である必要があります")
 
     @classmethod
     def create(cls, number: int) -> 'DiceFace':
@@ -57,31 +61,4 @@ class DiceFace:
                 "└─────┘"
             ]
         }
-        return cls(number=number, pattern=patterns[number])
-
-class Dice:
-    """サイコロのドメインモデル"""
-    def __init__(self):
-        self._current_face: Optional[DiceFace] = None
-        self._last_event: Optional[DiceRolled] = None
-
-    def roll(self) -> DiceFace:
-        """サイコロを振る"""
-        number = random.randint(1, 6)
-        self._current_face = DiceFace.create(number)
-        self._last_event = DiceRolled(face=self._current_face)
-        return self._current_face
-
-    @property
-    def current_face(self) -> DiceFace:
-        """現在の面を取得する"""
-        if self._current_face is None:
-            raise ValueError("サイコロはまだ振られていません")
-        return self._current_face
-
-    @property
-    def last_event(self) -> Optional[DiceRolled]:
-        """最後のイベントを取得する"""
-        if self._last_event is None:
-            raise ValueError("サイコロはまだ振られていません")
-        return self._last_event 
+        return cls(number=number, pattern=patterns[number]) 
