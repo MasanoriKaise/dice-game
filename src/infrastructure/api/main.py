@@ -37,9 +37,11 @@ async def get_current_face(dice_service: DiceService = Depends(get_dice_service)
     try:
         return dice_service.get_current_face()
     except ValueError as e:
+        import logging
+        logging.error("An error occurred while fetching the current face of the dice.", exc_info=True)
         return JSONResponse(
             status_code=200,
-            content={"error": str(e)}
+            content={"error": "An internal error occurred."}
         )
 
 @app.options("/api/{path:path}")
