@@ -42,6 +42,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+        uv venv
         uv pip install pytest pytest-cov pytest-asyncio httpx fastapi uvicorn dependency-injector hatchling pydantic
         uv pip install -e .
 
