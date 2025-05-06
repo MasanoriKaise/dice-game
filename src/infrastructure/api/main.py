@@ -34,7 +34,15 @@ async def roll_dice(dice_service: DiceService = Depends(get_dice_service)):
 @app.get("/api/current")
 async def get_current_face(dice_service: DiceService = Depends(get_dice_service)):
     """現在のサイコロの面を取得するエンドポイント"""
-    return dice_service.get_current_face()
+    try:
+        return dice_service.get_current_face()
+    except ValueError as e:
+        import logging
+        logging.error("An error occurred while fetching the current face of the dice.", exc_info=True)
+        return JSONResponse(
+            status_code=200,
+            content={"error": "An internal error occurred."}
+        )
 
 @app.options("/api/{path:path}")
 async def options_handler():

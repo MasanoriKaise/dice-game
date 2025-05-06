@@ -20,6 +20,9 @@ class DiceServiceImpl(DiceService):
     
     def get_current_face(self) -> Dict[str, Union[int, List[str], str]]:
         """現在のサイコロの面を取得する"""
+        if self._dice.current_face is None:
+            return {"error": "サイコロはまだ振られていません"}
+        
         try:
             face = self._dice.current_face
             event = self._dice.last_event
