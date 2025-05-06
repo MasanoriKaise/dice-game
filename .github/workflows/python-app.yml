@@ -17,6 +17,10 @@ jobs:
         python-version: '3.11'
     - name: Install uv
       run: pip install uv
+    - name: Create virtual environment
+      run: uv venv
+    - name: Activate virtual environment
+      run: source .venv/bin/activate
     - name: Install dependencies
       run: uv pip install -e .
     - name: Run tests
