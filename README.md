@@ -54,6 +54,14 @@ dice
 python -m src.infrastructure.console_ui
 ```
 
+### APIの起動
+
+APIを起動するには、以下のコマンドを使用します。
+
+```bash
+uvicorn src.infrastructure.api.main:app --host 0.0.0.0 --port 8000
+```
+
 ## 開発
 
 ### 環境セットアップ
