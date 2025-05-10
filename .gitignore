@@ -174,3 +174,5 @@ cython_debug/
 .pypirc
 
 dice-game.code-workspace
+
+node_modules/
