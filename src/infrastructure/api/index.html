@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Roll</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        button { padding: 10px 20px; font-size: 16px; }
+        #result { margin-top: 20px; font-size: 24px; }
+    </style>
+</head>
+<body>
+    <h1>Dice Roll Game</h1>
+    <button id="rollButton">Roll</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('rollButton').addEventListener('click', function() {
+            const eventSource = new EventSource('/roll-dice');
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = 'Rolling...';
+
+            eventSource.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                if (data.rolling) {
+                    resultDiv.textContent = `Rolling: ${data.result}`;
+                } else {
+                    resultDiv.textContent = `Final Result: ${data.result}`;
+                    eventSource.close();
+                }
+            };
+        });
+    </script>
+</body>
+</html> 

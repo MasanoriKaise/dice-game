@@ -52,7 +52,12 @@ dice
 
 # または、Pythonモジュールとして実行
 python -m src.infrastructure.console_ui
+
+# TypeScriptサーバーを使用して実行
+npx ts-node --project tsconfig.json src/infrastructure/api/server.ts
 ```
+
+ブラウザで `http://localhost:3000` にアクセスし、"Roll" ボタンをクリックしてサイコロのアニメーションを楽しんでください。
 
 ## 開発
 
