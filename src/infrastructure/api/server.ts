@@ -2,6 +2,7 @@ import express from 'express';
 import axios from 'axios';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import rateLimit from 'express-rate-limit';
 
 const app = express();
 const port = 3000;
@@ -13,8 +14,14 @@ const __dirname = path.dirname(__filename);
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname)));
 
+// Configure rate limiter for the root URL
+const rootLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+});
+
 // Serve index.html on the root URL
-app.get('/', (req, res) => {
+app.get('/', rootLimiter, (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
